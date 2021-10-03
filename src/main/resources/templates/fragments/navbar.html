@@ -1,0 +1,29 @@
+<nav id="sidebar" class="active" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h1><a href="index.html" class="logo">M.</a></h1>
+    <ul class="list-unstyled components mb-5">
+        <li th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active':''}">
+            <a th:href="@{/home}"><span class="fa fa-home"></span> Home</a>
+        </li>
+        <li th:classappend="${#httpServletRequest.getRequestURI() == '/about' ? 'active':''}">
+            <a th:href="@{/about}"><span class="fa fa-paper-plane"></span> About</a>
+        </li>
+        <li th:classappend="${#httpServletRequest.getRequestURI() == '/vehicle-model' ? 'active':''}">
+            <a th:href="@{/vehicle-model}"><span class="fa fa-cogs"></span> Models</a>
+        </li>
+        <li th:classappend="${#httpServletRequest.getRequestURI() == '/users' ? 'active':''}">
+            <a th:href="@{/users}"><span class="fa fa-user"></span> Users</a>
+        </li>
+        <li>
+            <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
+        </li>
+
+    </ul>
+
+    <div class="footer">
+        <p>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+            All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib.com</a>
+        </p>
+    </div>
+</nav>
