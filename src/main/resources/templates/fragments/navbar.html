@@ -16,7 +16,10 @@
         <li>
             <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
         </li>
-
+        <li>
+            <a onclick="document.getElementById('logout-form').submit();" style="cursor: pointer;"><span
+                    class="fa fa-sign-out"></span> Logout</a>
+        </li>
     </ul>
 
     <div class="footer">
@@ -26,4 +29,8 @@
                 href="https://colorlib.com" target="_blank">Colorlib.com</a>
         </p>
     </div>
+
+    <form th:action="@{/logout}" method="POST" id="logout-form" style="display: none;">
+        <input type="submit" value="Logout"/>
+    </form>
 </nav>
