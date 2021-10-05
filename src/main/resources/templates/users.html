@@ -55,15 +55,19 @@
                 <table id="table_id" class="display">
                     <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Model Name</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Enable</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!--                    <tr th:each="vehicleModel: ${vehicleModels}">-->
-                    <!--                        <td th:text="${vehicleModel.code}"/>-->
-                    <!--                        <td th:text="${vehicleModel.modelName}"/>-->
-                    <!--                    </tr>-->
+                    <tr th:each="user: ${users}">
+                        <td th:text="${user.name}"/>
+                        <td th:text="${user.email}"/>
+                        <td th:text="${user.phone}"/>
+                        <td th:text="${user.enable}"/>
+                    </tr>
                     </tbody>
                 </table>
             </div>
