@@ -1,6 +1,10 @@
 package com.atheesh.vehiclestore.config;
 
+import com.atheesh.vehiclestore.services.impl.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,6 +14,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -24,10 +30,18 @@ import java.io.IOException;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    MyUserDetailsService myUserDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+//                .antMatchers("/").permitAll()
                 .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -39,23 +53,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                         Authentication authentication) throws IOException, ServletException {
                         // run custom logics upon successful login
-                        System.out.println("auth sicess");
-                        response.sendRedirect("/login");
+                        System.out.println("auth success");
+                        response.sendRedirect("/home");
                     }
                 })
-//                .defaultSuccessUrl("/vehicle-models", true)
+                .defaultSuccessUrl("/home", true)
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                        System.out.println("auth failed "+e.getMessage());
+                        System.out.println("here : "+e.getMessage());
                         httpServletResponse.sendRedirect("/login?error=failed");
                     }
                 })
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
+                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
-//                .logoutSuccessHandler(logoutSuccessHandler());
     }
 
 
@@ -68,14 +81,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("Althea_Kunze@yahoo.com")
-                        .password("EiPnsVkt5nVx_K_")
-                        .roles("USER")
-                        .build();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("Althea_Kunze@yahoo.com")
+//                .password(passwordEncoder().encode("EiPnsVkt5nVx_K_"))
+//                .roles("USER");
 
-        return new InMemoryUserDetailsManager(user);
+        auth.userDetailsService(myUserDetailsService);
     }
+
+//    @Override
+//    protected UserDetailsService userDetailsService() {
+//        System.out.println("hgweyrgyg");
+//
+//        UserDetails theUser = User.withUsername("Althea_Kunze@yahoo.com")
+//                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
+//                .password("EiPnsVkt5nVx_K_").roles("USER").build();
+//
+////        UserDetails user =
+////                User.builder()
+////                        .username("Althea_Kunze@yahoo.com")
+////                        .password(passwordEncoder().encode("EiPnsVkt5nVx_K_"))
+////                        .roles("USER")
+////                        .build();
+//
+//        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
+//
+//        userDetailsManager.createUser(theUser);
+//
+//        return userDetailsManager;
+//    }
 }
