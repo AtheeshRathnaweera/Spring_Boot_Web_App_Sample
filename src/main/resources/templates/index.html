@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Vehicles Store</title>
     <meta charset="utf-8">
@@ -23,31 +23,13 @@
                     <i class="fa fa-bars"></i>
                     <span class="sr-only">Toggle Menu</span>
                 </button>
-                <!--                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"-->
-                <!--                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"-->
-                <!--                        aria-expanded="false" aria-label="Toggle navigation">-->
-                <!--                    <i class="fa fa-bars"></i>-->
-                <!--                </button>-->
-                <!--                <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-                <!--                    <ul class="nav navbar-nav ml-auto">-->
-                <!--                        <li class="nav-item active">-->
-                <!--                            <a class="nav-link" href="#">Home</a>-->
-                <!--                        </li>-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="#">About</a>-->
-                <!--                        </li>-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="#">Portfolio</a>-->
-                <!--                        </li>-->
-                <!--                        <li class="nav-item">-->
-                <!--                            <a class="nav-link" href="#">Contact</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </div>-->
             </div>
         </nav>
 
         <h2 class="mb-4">This is the home</h2>
+        Logged user: <span sec:authentication="name">Bob</span><br>
+        Roles: <span sec:authentication="principal.authorities">ROLE_USER, ROLE_ADMIN</span>
+
     </div>
 </div>
 
