@@ -1,13 +1,11 @@
 package com.atheesh.vehiclestore.services.impl;
 
 import com.atheesh.vehiclestore.models.MyUserPrincipal;
-import com.atheesh.vehiclestore.models.User;
 import com.atheesh.vehiclestore.models.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -27,14 +25,14 @@ public class MyUserDetailsService implements UserDetailsService {
         if (userRolesList != null) {
             for (UserRole userRole : userRolesList) {
                 if (userRole.getUser().getEmail().equals(s)) {
-                    User currentUser = userRole.getUser();
-                    System.out.println("user found");
-                    currentUser.setPassword(new BCryptPasswordEncoder().encode(currentUser.getPassword()));
-                    return new MyUserPrincipal(currentUser);
+                    System.out.println("user found "+userRole.getRole().toString());
+                    return new MyUserPrincipal(userRole);
                 }
             }
         }
 
         return null;
     }
+
+
 }
